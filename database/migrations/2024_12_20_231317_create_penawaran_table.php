@@ -9,23 +9,23 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('penawaran', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->enum('role', ['admin', 'peserta'])->default('peserta');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('barang_id')->constrained('barang')->onDelete('cascade');
+            $table->decimal('harga_penawaran', 15, 2);
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('penawaran');
     }
 };
